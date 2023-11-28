@@ -1,0 +1,52 @@
+.redirection-scheduler-admin {
+    box-sizing: border-box;
+    margin-top: 30px;
+
+    h1 {
+        margin-top: 0;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+.redirection-scheduler-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    grid-gap: 15px;
+    padding: 0 15px;
+
+    @media (max-width: 800px) {
+        display: block;
+    }
+}
+
+.redirection-scheduler-form {
+    background-color: #fff;
+    padding: 30px 20px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+
+    form {
+        width: 100%;
+        margin: 0 auto;
+
+        input,
+		select {
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        input[type=submit] {
+            padding: 10px;
+            margin: 20px 0 0 0;
+        }
+    }
+}
+
+#redirection-scheduler-tbody {
+    .-live {
+        background-color: #dafeda;
+    }
+}

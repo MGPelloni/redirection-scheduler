@@ -1,0 +1,11 @@
+{
+	"name": "Redirection Scheduler",
+	"version": "1.0.0",
+	"download_url": "https://marcopelloni.com/releases/redirection-scheduler.zip",
+	"homepage": "https://github.com/MGPelloni/redirection-scheduler/",
+	"author": "Marco Pelloni",
+	"sections" : {
+		"description" : "Extends the Redirection plugin by allowing administrators to schedule redirects at a later time."
+	},
+	"author_homepage": "https://marcopelloni.com/"
+}
