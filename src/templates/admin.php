@@ -26,12 +26,17 @@
 				<div>
 					<label><?php esc_html_e("Redirect Type", "redirection-scheduler") ?>:</label>
 					<select name="redirection_http_code">
-						<option value="301" selected>301 - Moved Permanently</option>
-						<option value="302">302 - Found</option>
-						<option value="303">303 - See Other</option>
-						<option value="304">304 - Not Modified</option>
-						<option value="307">307 - Temporary Redirect</option>
-						<option value="308">308 - Permanent Redirect</option>
+						<optgroup label="HTTP Codes">
+							<option value="301" selected>301 - Moved Permanently</option>
+							<option value="302">302 - Found</option>
+							<option value="303">303 - See Other</option>
+							<option value="304">304 - Not Modified</option>
+							<option value="307">307 - Temporary Redirect</option>
+							<option value="308">308 - Permanent Redirect</option>
+						</optgroup>
+						<optgroup label="Actions">
+							<option value="900">Scheduled Delete</option>
+						</optgroup>
 					</select>
 				</div>
                 <input type="submit" value="<?php esc_attr_e("Schedule", "redirection-scheduler") ?>">
@@ -65,15 +70,15 @@
 
                     $nonce = wp_create_nonce('wp_rest');
                     foreach ($redirects as $redirect): ?>
-                        <tr class="-<?php esc_attr_e(strtolower($redirect['status'])) ?>">
+						<tr class="-<?php esc_attr_e(str_replace(' ', '-', strtolower($redirect['status']))) ?>">
                             <td><?php esc_html_e($redirect['source_url']) ?></td>
                             <td><?php esc_html_e($redirect['target_url']) ?></td>
-							<td><?php esc_html_e($redirect['http_code']) ?></td>
+							<td><?php esc_html_e($redirect['http_code'] === '900' ? "Scheduled Delete" : $redirect['http_code']) ?></td>
                             <td><?php esc_html_e(wp_date('F jS, Y @ g:ia T', strtotime($redirect['scheduled']))); ?></td>
                             <td><?php esc_html_e($redirect['status']) ?></td>
                             <td>
-                        <?php $label = ($redirect['status'] === "Live") ? "Clear" : "Delete"; ?>
-                                <a href="<?php echo esc_url(rest_url("/redirection-scheduler/delete/{$redirect['id']}/?_wpnonce=$nonce")) ?>" class="button button-secondary"><?php esc_html_e($label) ?></a>
+                        		<?php $label = ($redirect['status'] === "Scheduled") ? "Delete" : "Clear"; ?>
+								<a href="<?php echo esc_url(rest_url("/redirection-scheduler/delete/{$redirect['id']}/?_wpnonce=$nonce")) ?>" class="button button-secondary" data-action="<?php echo esc_attr($label === 'Delete' ? 'delete' : 'clear'); ?>"><?php esc_html_e($label) ?></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

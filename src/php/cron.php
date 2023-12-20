@@ -26,7 +26,14 @@ function redirection_scheduler_cron_callback()
             continue;
         }
 
-        redirection_scheduler_add_redirect($redirect['source_url'], $redirect['target_url'], $redirect['http_code']);
+		switch ($redirect['http_code']) {
+			case '900': // Scheduled Delete
+				redirection_scheduler_delete_redirect($redirect['source_url'], $redirect['target_url']);
+				break;
+			default:
+				redirection_scheduler_add_redirect($redirect['source_url'], $redirect['target_url'], $redirect['http_code']);
+				break;
+		}
     }
 }
 

@@ -73,6 +73,54 @@ function redirection_scheduler_add_redirect($source_url, $target_url, $http_code
 }
 
 /**
+ * Deletes a redirect from the Redirection plugin.
+ *
+ * @param string $source_url The source URL.
+ * @param string $target_url The target URL.
+ *
+ * @return void
+ */
+function redirection_scheduler_delete_redirect($source_url, $target_url)
+{
+	global $wpdb;
+	$table_name = $wpdb->prefix . REDIRECTION_SCHEDULER_TABLE_NAME;
+
+	$status = "Not Found";
+
+	if (class_exists('Red_Item')) {
+		$redirects = Red_Item::get_for_matched_url($source_url);
+
+		if (!empty($redirects)) {
+			foreach ($redirects as $redirect) {
+				if ( $redirect->get_action_data() == $target_url) {
+					if (defined('WP_CLI') && WP_CLI) {
+						WP_CLI::log("Successfully found redirect.");
+					}
+
+					$redirect->delete();
+					$status = "Deleted";
+				}
+			}
+		}
+	} else {
+		$status = "Error";
+	}
+
+	$wpdb->update(
+		$table_name,
+		[
+			'status' => $status,
+		],
+		[
+			'source_url' => $source_url,
+			'target_url' => $target_url,
+		]
+	);
+
+	redirection_scheduler_clear_cache();
+}
+
+/**
  * Activation callback for Redirection Scheduler.
  *
  * @return void

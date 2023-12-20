@@ -46,7 +46,13 @@
 }
 
 #redirection-scheduler-tbody {
-    .-live {
+    .-live,
+	.-deleted {
         background-color: #dafeda;
     }
+
+	.-not-found,
+	.-error {
+		background-color: #fddddd;
+	}
 }
