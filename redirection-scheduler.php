@@ -11,7 +11,7 @@ Text Domain: redirection-scheduler
 Tested up to: 6.4
 
 Version number is automatically adjusted by semantic-release-bot on release, do not adjust manually:
-Version: 1.0.0
+Version: 0.0.0
 
 */
 
